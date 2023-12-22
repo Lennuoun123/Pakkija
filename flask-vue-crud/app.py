@@ -4,7 +4,7 @@ import pandas as pd
 import openpyxl
 import itertools as it
 
-df = pd.read_excel(io="3P_tunniplaan.xlsx", dtype='object')
+df = pd.read_excel(io="nyc_excel.xlsx", dtype='object')
 
 komb = [
     '00000', '00001', '00010', '00011',
@@ -16,20 +16,29 @@ komb = [
     '11000', '11001', '11010', '11011',
     '11100', '11101', '11110', '11111'
 ]
+sisesta_klass = input("Sisesta klass: ")
+klass = [sisesta_klass]
+sisesta_päev = input("Sisesta päev: ").lower()
+
+if sisesta_päev == "esmaspäev":
+    päev_binary = 0
+elif sisesta_päev == "teisipäev":
+    päev_binary = 1
+elif sisesta_päev == "kolmapäev":
+    päev_binary = 2
+elif sisesta_päev == "neljapäev":
+    päev_binary = 3
+elif sisesta_päev == "reede":
+    päev_binary = 4
 
 filtered_numbers = []
-
 for binary_number in komb:
-    if binary_number[0] == '1':
+    if binary_number[päev_binary] == '1':
         filtered_numbers.append(binary_number)
-#print(filtered_numbers)
 
-esmaspaev = df[df['Cycle Day'].isin(filtered_numbers)]
-#print(esmaspaev.head(50))
-
-klassid = ["11R"]
-esmaspaev_11R = esmaspaev[df['SectionID'].isin(klassid)]
-print(esmaspaev_11R.head(50))
+df_päev = df[df['Cycle Day'].isin(filtered_numbers)]
+df_päev_klass = df_päev[df['SectionID'].isin(klass)]
+print(df_päev_klass.head(50))
 
 # instantiate the app
 app = Flask(__name__)
