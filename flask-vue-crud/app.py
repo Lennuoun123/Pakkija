@@ -38,8 +38,17 @@ for binary_number in komb:
 
 df_päev = df[df['Cycle Day'].isin(filtered_numbers)]
 df_päev_klass = df_päev[df['SectionID'].isin(klass)]
+
 print(df_päev_klass.head(50))
 
+klass_filter = df[df['SectionID'].isin(klass)]
+#values_list = klass_filter['Course name'].tolist()
+unique_values_list = klass_filter['Course name'].unique().tolist()
+print(unique_values_list)
+
+unique_values_set = set(df['CourseCode'])
+#unique_classes = set(unique_values_set['SectionID'])
+#print(unique_classes)
 # instantiate the app
 app = Flask(__name__)
 app.config.from_object(__name__)
